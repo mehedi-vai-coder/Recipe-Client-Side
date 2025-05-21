@@ -4,9 +4,8 @@ import RecipeCard from './RecipeCard';
 
 const MyRecipe = () => {
     const allRecipe = useLoaderData();
-    const [recipies, setRecipies] =useState(allRecipe);
+    const [recipes, setRecipes] = useState(allRecipe);
 
-    console.log(allRecipe);
 
     return (
         <div>
@@ -15,8 +14,8 @@ const MyRecipe = () => {
                 allRecipe.map(recipe =><RecipeCard
                      key={recipe._id} 
                      recipe={recipe}
-                     recipies={recipies}
-                     setRecipies={setRecipies}
+                     recipes={recipes}
+                     setRecipes={setRecipes}
                      ></RecipeCard>)
             }
            </div>

@@ -2,15 +2,10 @@ import React from 'react';
 import { Link } from 'react-router';
 import Swal from 'sweetalert2';
 
-const RecipeCard = ({ recipe, recipies, setRecipies }) => {
-    const { image, title,
-        cuisineType,
-        instructions,
-        ingredients,
-        _id } = recipe;
+const RecipeCard = ({ recipe, recipes, setRecipes }) => {
 
+    const { image, title, cuisineType, instructions,  ingredients, _id } = recipe;
     const handleDelete = (_id) => {
-        console.log(_id);
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -20,7 +15,6 @@ const RecipeCard = ({ recipe, recipies, setRecipies }) => {
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
-            console.log(result.isConfirmed)
             if (result.isConfirmed) {
                 // start deleting the recipe
                 fetch(`http://localhost:3000/recipies/${_id}`, {
@@ -28,16 +22,17 @@ const RecipeCard = ({ recipe, recipies, setRecipies }) => {
                 })
                     .then(res => res.json())
                     .then(data => {
-                        console.log('after delete', data);
+                        // console.log('after delete', data);
                         if (data.deletedCount) {
                             Swal.fire({
                                 title: "Deleted!",
-                                text: "Your Coffee has been deleted.",
+                                text: "Your Recipe has been deleted.",
                                 icon: "success"
                             });
-                            // Remove the coffe from the state 
-                            const remainingRecipes = recipies.filter(rec => rec._id !== _id);
-                            setRecipies(remainingRecipes);
+                            // Remove the recipe from the state 
+                          const remainignRecipe = recipes.filter(rec => rec._id !== _id);
+                          setRecipes(remainignRecipe);
+                            
                         }
                     })
 
