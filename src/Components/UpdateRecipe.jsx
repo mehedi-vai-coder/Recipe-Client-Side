@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLoaderData } from "react-router";
 import Swal from "sweetalert2";
 
 // Itam list
@@ -14,6 +15,8 @@ const initialCategories = [
 const cuisineOptions = ["Italian", "Mexican", "Indian", "Chinese", "Others"];
 
 export default function RecipeForm() {
+    const { _id, image, title, ingredients, instructions, cuisineType, preparationTime, categories } = useLoaderData();
+
     const [formData, setFormData] = useState({
         image: "",
         title: "",
@@ -24,7 +27,7 @@ export default function RecipeForm() {
         categories: [],
         likeCount: 0
     });
-
+    console.log(formData)
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
 
@@ -43,44 +46,44 @@ export default function RecipeForm() {
         }
     };
 
-    const handleAddRecipe = (e) => {
+    const handleUpdateRecipe = (e) => {
         e.preventDefault();
         const form = e.target;
         const formData = new FormData(form);
-        const newRecipe = Object.fromEntries(formData.entries());
-        console.log(newRecipe);
+        const UpdatedRecipe = Object.fromEntries(formData.entries());
+        console.log(UpdatedRecipe);
 
         // send Recipe data to the db 
-        fetch('http://localhost:3000/recipies', {
-            method: 'POST',
+        fetch(`http://localhost:3000/recipies/${_id}`, {
+            method: 'PUT',
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify(newRecipe)
+            body: JSON.stringify(UpdatedRecipe)
         })
             .then(res => res.json())
             .then(data => {
-                if (data.insertedId) {
-                    console.log('After adding Coffee to db', data)
+                if (data.modifiedCount) {
                     Swal.fire({
-                        title: "Recipe Added successfully.",
+                        position: "top-end",
                         icon: "success",
-                        draggable: true
+                        title: "Recipe Updated Successfully.",
+                        showConfirmButton: false,
+                        timer: 1500
                     });
-                    form.reset();
                 }
             });
     };
 
     return (
-        <form onSubmit={handleAddRecipe} className="max-w-lg mx-auto p-4 space-y-4 bg-white shadow rounded-xl">
-            <h2 className="text-2xl font-semibold text-center">Add a New Recipe</h2>
+        <form onSubmit={handleUpdateRecipe} className="max-w-lg mx-auto p-4 space-y-4 bg-white shadow rounded-xl">
+            <h2 className="text-2xl font-semibold text-center">Update Your Recipe</h2>
             <div>
                 <label className="block">Image URL</label>
                 <input
                     type="url"
                     name="image"
-                    value={formData.image}
+                    defaultValue={image}
                     onChange={handleChange}
                     required
                     className="w-full p-2 border rounded"
@@ -93,7 +96,7 @@ export default function RecipeForm() {
                 <input
                     type="text"
                     name="title"
-                    value={formData.title}
+                    defaultValue={title}
                     onChange={handleChange}
                     required
                     className="w-full p-2 border rounded"
@@ -105,7 +108,7 @@ export default function RecipeForm() {
                 <input
                     type="text"
                     name="ingredients"
-                    value={formData.ingredients}
+                    defaultValue={ingredients}
                     onChange={handleChange}
                     placeholder="e.g., eggs, sugar, flour"
                     required
@@ -117,7 +120,7 @@ export default function RecipeForm() {
                 <label className="block">Instructions</label>
                 <textarea
                     name="instructions"
-                    value={formData.instructions}
+                    defaultValue={instructions}
                     onChange={handleChange}
                     required
                     className="w-full p-2 border rounded"
@@ -129,7 +132,7 @@ export default function RecipeForm() {
                 <label className="block">Cuisine Type</label>
                 <select
                     name="cuisineType"
-                    value={formData.cuisineType}
+                    defaultValue={cuisineType}
                     onChange={handleChange}
                     className="w-full p-2 border rounded"
                 >
@@ -146,7 +149,7 @@ export default function RecipeForm() {
                 <input
                     type="number"
                     name="preparationTime"
-                    value={formData.preparationTime}
+                    defaultValue={preparationTime}
                     onChange={handleChange}
                     className="w-full p-2 border rounded"
                 />
@@ -156,7 +159,6 @@ export default function RecipeForm() {
                 <input
                     type="number"
                     name="likeCount"
-                    value={formData.likeCount}
                     disabled
                     className="w-full p-2 border rounded bg-gray-100 text-gray-600"
                 />
@@ -169,8 +171,8 @@ export default function RecipeForm() {
                         <label key={category} className="flex items-center space-x-2">
                             <input
                                 type="checkbox"
+                                defaultValue={categories}
                                 value={category}
-                                checked={formData.categories.includes(category)}
                                 onChange={handleChange}
                             />
                             <span>{category}</span>
@@ -183,7 +185,7 @@ export default function RecipeForm() {
                 type="submit"
                 className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
             >
-                Add Recipe
+                Update Recipe
             </button>
         </form>
     );
