@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import Swal from 'sweetalert2';
 
 const RecipeCard = ({ recipe,setRecipes,recipes}) => {
-    console.log(recipe, recipes)
+    // console.log(recipe, recipes)
     const { image, title, cuisineType, instructions, ingredients, _id } = recipe;
     const handleDelete = (_id) => {
         console.log(_id)
