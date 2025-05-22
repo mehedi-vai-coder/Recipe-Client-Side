@@ -1,49 +1,36 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Swal from "sweetalert2";
 
-// Itam list
-const initialCategories = [
-    "Breakfast",
-    "Lunch",
-    "Dinner",
-    "Dessert",
-    "Vegan"
-];
-
-// type of item
-const cuisineOptions = ["Italian", "Mexican", "Indian", "Chinese", "Others"];
-
-export default function RecipeForm() {
+const AddRecipe = () => {
     const [formData, setFormData] = useState({
         image: "",
         title: "",
         ingredients: "",
         instructions: "",
-        cuisineType: "Italian",
-        preparationTime: 0,
+        cuisineType: "",
+        preparationTime: "",
         categories: [],
-        likeCount: 0
+        likeCount: 0,
     });
 
-    const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
+    const categoriesList = ["Breakfast", "Lunch", "Dinner", "Dessert", "Vegan"];
+    const cuisineTypes = ["Italian", "Mexican", "Indian", "Chinese", "Others"];
 
-        if (type === "checkbox") {
-            setFormData((prev) => ({
-                ...prev,
-                categories: checked
-                    ? [...prev.categories, value]
-                    : prev.categories.filter((cat) => cat !== value)
-            }));
-        } else {
-            setFormData((prev) => ({
-                ...prev,
-                [name]: type === "number" ? Number(value) : value
-            }));
-        }
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
     };
 
-    const handleAddRecipe = (e) => {
+    const handleCheckbox = (e) => {
+        const { value, checked } = e.target;
+        const updatedCategories = checked
+            ? [...formData.categories, value]
+            : formData.categories.filter((cat) => cat !== value);
+
+        setFormData({ ...formData, categories: updatedCategories });
+    };
+
+    const handleSubmit = (e) => {
         e.preventDefault();
         const form = e.target;
         const formData = new FormData(form);
@@ -70,121 +57,102 @@ export default function RecipeForm() {
                     form.reset();
                 }
             });
+        console.log(formData); // will replace with API call
     };
 
     return (
-        <form onSubmit={handleAddRecipe} className="max-w-lg mx-auto p-4 space-y-4 bg-white shadow rounded-xl">
-            <h2 className="text-2xl font-semibold text-center">Add a New Recipe</h2>
-            <div>
-                <label className="block">Image URL</label>
+        <div className="max-w-2xl mx-auto p-8 bg-white shadow-2xl rounded-2xl mt-10">
+            <h2 className="text-3xl font-bold text-center mb-6 text-indigo-600">🍽️ Add a New Recipe</h2>
+
+            <form onSubmit={handleSubmit} className="space-y-4">
                 <input
-                    type="url"
+                    type="text"
                     name="image"
+                    placeholder="Image URL"
                     value={formData.image}
                     onChange={handleChange}
+                    className="w-full border rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
                     required
-                    className="w-full p-2 border rounded"
-                    placeholder="https://example.com/image.jpg"
                 />
-            </div>
 
-            <div>
-                <label className="block">Title</label>
                 <input
                     type="text"
                     name="title"
+                    placeholder="Recipe Title"
                     value={formData.title}
                     onChange={handleChange}
+                    className="w-full border rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
                     required
-                    className="w-full p-2 border rounded"
                 />
-            </div>
 
-            <div>
-                <label className="block">Ingredients (comma separated)</label>
-                <input
-                    type="text"
+                <textarea
                     name="ingredients"
+                    placeholder="Ingredients"
                     value={formData.ingredients}
                     onChange={handleChange}
-                    placeholder="e.g., eggs, sugar, flour"
+                    className="w-full border rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
                     required
-                    className="w-full p-2 border rounded"
                 />
-            </div>
 
-            <div>
-                <label className="block">Instructions</label>
                 <textarea
                     name="instructions"
+                    placeholder="Instructions"
                     value={formData.instructions}
                     onChange={handleChange}
+                    className="w-full border rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
                     required
-                    className="w-full p-2 border rounded"
-                    rows="4"
                 />
-            </div>
 
-            <div>
-                <label className="block">Cuisine Type</label>
                 <select
                     name="cuisineType"
                     value={formData.cuisineType}
                     onChange={handleChange}
-                    className="w-full p-2 border rounded"
+                    className="w-full border rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                    required
                 >
-                    {cuisineOptions.map((cuisine) => (
-                        <option key={cuisine} value={cuisine}>
-                            {cuisine}
-                        </option>
+                    <option value="">Select Cuisine Type</option>
+                    {cuisineTypes.map((type) => (
+                        <option key={type} value={type}>{type}</option>
                     ))}
                 </select>
-            </div>
 
-            <div>
-                <label className="block">Preparation Time (minutes)</label>
                 <input
                     type="number"
                     name="preparationTime"
+                    placeholder="Preparation Time (in minutes)"
                     value={formData.preparationTime}
                     onChange={handleChange}
-                    className="w-full p-2 border rounded"
+                    className="w-full border rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                    required
                 />
-            </div>
-            <div>
-                <label className="block font-medium">Like Count</label>
-                <input
-                    type="number"
-                    name="likeCount"
-                    value={formData.likeCount}
-                    disabled
-                    className="w-full p-2 border rounded bg-gray-100 text-gray-600"
-                />
-            </div>
 
-            <div>
-                <label className="block">Categories</label>
-                <div className="flex flex-wrap gap-2">
-                    {initialCategories.map((category) => (
-                        <label key={category} className="flex items-center space-x-2">
-                            <input
-                                type="checkbox"
-                                value={category}
-                                checked={formData.categories.includes(category)}
-                                onChange={handleChange}
-                            />
-                            <span>{category}</span>
-                        </label>
-                    ))}
-                </div>
-            </div>
+                <fieldset className="border rounded-xl p-4">
+                    <legend className="text-lg font-semibold mb-2 text-indigo-500">Select Categories</legend>
+                    <div className="flex flex-wrap gap-4">
+                        {categoriesList.map((cat) => (
+                            <label key={cat} className="flex items-center gap-2">
+                                <input
+                                    type="checkbox"
+                                    value={cat}
+                                    onChange={handleCheckbox}
+                                    checked={formData.categories.includes(cat)}
+                                    className="accent-indigo-600"
+                                />
+                                {cat}
+                            </label>
+                        ))}
+                    </div>
+                </fieldset>
 
-            <button
-                type="submit"
-                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
-            >
-                Add Recipe
-            </button>
-        </form>
+                <button
+                    type="submit"
+                    className="w-full bg-indigo-600 text-white py-2 rounded-xl font-semibold hover:bg-indigo-700 transition duration-300"
+                >
+                    ➕ Add Recipe
+                </button>
+            </form>
+        </div>
     );
-}
+};
+
+export default AddRecipe;

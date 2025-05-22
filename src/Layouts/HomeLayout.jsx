@@ -22,7 +22,9 @@ const HomeLayout = () => {
                     <Outlet></Outlet>
                 </section>
             </main>
-            <Footer></Footer>
+            <footer className='mt-20'>
+                <Footer></Footer>
+            </footer>
         </div>
     );
 };

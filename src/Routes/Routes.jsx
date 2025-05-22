@@ -52,6 +52,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'allrecipe',
+        loader: ({ params }) => fetch(`http://localhost:3000/recipies/${params.id}`),
         Component: AllRecipe
       },
       {
