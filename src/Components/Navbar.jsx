@@ -17,7 +17,7 @@ const Navbar = () => {
             <div className="">
                 <img className='w-15' src={icon} alt="" />
             </div>
-            <div className="nav flex gap-5 lg:ml-60 ">
+            <div className="nav flex gap-5 lg:ml-60 text-xl">
                 <NavLink to='/'>Home</NavLink>
                 <NavLink to='/allrecipe'>All Recipes</NavLink>
                 <NavLink to='/addrecipe'>Add Recipe</NavLink>
@@ -30,7 +30,7 @@ const Navbar = () => {
                     user ? <button onClick={handleLogout} className="btn btn-primary px-10 " >Logout</button> : <Link to='/auth/login' className="btn btn-primary px-10 ">Login</Link>
                 }
                 {
-                    user ? '': <Link to='/auth/register' className="btn btn-primary px-10 ">Register</Link>
+                    user ? '' : <Link to='/auth/register' className="btn btn-primary px-10 ">Register</Link>
                 }
 
             </div>
