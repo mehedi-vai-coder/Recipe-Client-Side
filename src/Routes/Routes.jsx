@@ -11,6 +11,7 @@ import AuthLayout from "../Layouts/AuthLayout";
 import PrivateRoute from "../Provider/PrivateRoute";
 import MyRecipe from "../Components/MyRecipe"
 import Loading from "../Components/Loading";
+import Error from "../Pages/Error";
 
 export const router = createBrowserRouter([
   {
@@ -21,7 +22,7 @@ export const router = createBrowserRouter([
         index: true,
         loader: () => fetch('http://localhost:3000/recipies'),
         Component: Home,
-         hydrateFallbackElement: <Loading></Loading>
+        hydrateFallbackElement: <Loading></Loading>
       },
       {
         path: 'addrecipe',
@@ -31,7 +32,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'myrecipe',
-        element:<PrivateRoute>
+        element: <PrivateRoute>
           <MyRecipe></MyRecipe>
         </PrivateRoute>,
         loader: () => fetch('http://localhost:3000/recipies'),
@@ -41,17 +42,21 @@ export const router = createBrowserRouter([
         path: 'recipedetails/:id',
         loader: ({ params }) => fetch(`http://localhost:3000/recipies/${params.id}`),
         Component: RecipeDetails,
-         hydrateFallbackElement: <Loading></Loading>
+        hydrateFallbackElement: <Loading></Loading>
       },
       {
         path: 'updaterecipe/:id',
         loader: ({ params }) => fetch(`http://localhost:3000/recipies/${params.id}`),
         Component: UpdateRecipe,
-         hydrateFallbackElement: <Loading></Loading>
+        hydrateFallbackElement: <Loading></Loading>
       },
       {
         path: 'allrecipe',
         Component: AllRecipe
+      },
+      {
+        path: "/*",
+        element: <Error></Error>
       },
 
 
