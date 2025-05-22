@@ -2,10 +2,11 @@ import React from 'react';
 import { Link } from 'react-router';
 import Swal from 'sweetalert2';
 
-const RecipeCard = ({ recipe, recipes, setRecipes }) => {
-
-    const { image, title, cuisineType, instructions,  ingredients, _id } = recipe;
+const RecipeCard = ({ recipe,setRecipes,recipes}) => {
+    console.log(recipe, recipes)
+    const { image, title, cuisineType, instructions, ingredients, _id } = recipe;
     const handleDelete = (_id) => {
+        console.log(_id)
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -30,9 +31,8 @@ const RecipeCard = ({ recipe, recipes, setRecipes }) => {
                                 icon: "success"
                             });
                             // Remove the recipe from the state 
-                          const remainignRecipe = recipes.filter(rec => rec._id !== _id);
-                          setRecipes(remainignRecipe);
-                            
+                          const remainingRecipe =recipes.filter(res => res._id !== _id)
+                          setRecipes(remainingRecipe);
                         }
                     })
 

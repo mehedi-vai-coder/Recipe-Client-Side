@@ -1,10 +1,13 @@
 import React from 'react';
-import { NavLink } from 'react-router';
+import { Link, NavLink } from 'react-router';
 import user from '../assets/user.png'
+import icon from '../assets/restaurant-service-abstract-logo-template-symbol-icon-free-vector.jpg'
 const Navbar = () => {
     return (
         <div className='flex justify-between items-center'>
-            <div className=""></div>
+            <div className="">
+                <img className='w-15' src={icon} alt="" />
+            </div>
             <div className="nav flex gap-5 lg:ml-60 ">
                 <NavLink to='/'>Home</NavLink>
                 <NavLink to='/allrecipe'>All Recipes</NavLink>
@@ -13,8 +16,8 @@ const Navbar = () => {
             </div>
             <div className="login-btn flex gap-3">
                 <img src={user} alt="" />
-                <button className='btn btn-primary px-8'>Register</button>
-                <button className='btn btn-primary px-8'>Login</button>
+                <Link to='/auth/register' className='btn btn-primary px-8'>Register</Link>
+                <Link to='/auth/login' className='btn btn-primary px-8'>Login</Link>
             </div>
         </div>
     );

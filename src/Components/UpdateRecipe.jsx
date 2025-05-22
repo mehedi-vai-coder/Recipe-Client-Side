@@ -1,4 +1,4 @@
-import { useState } from "react";
+// import { useState } from "react";
 import { useLoaderData } from "react-router";
 import Swal from "sweetalert2";
 
@@ -17,34 +17,6 @@ const cuisineOptions = ["Italian", "Mexican", "Indian", "Chinese", "Others"];
 export default function RecipeForm() {
     const { _id, image, title, ingredients, instructions, cuisineType, preparationTime, categories } = useLoaderData();
 
-    const [formData, setFormData] = useState({
-        image: "",
-        title: "",
-        ingredients: "",
-        instructions: "",
-        cuisineType: "Italian",
-        preparationTime: 0,
-        categories: [],
-        likeCount: 0
-    });
-    console.log(formData)
-    const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
-
-        if (type === "checkbox") {
-            setFormData((prev) => ({
-                ...prev,
-                categories: checked
-                    ? [...prev.categories, value]
-                    : prev.categories.filter((cat) => cat !== value)
-            }));
-        } else {
-            setFormData((prev) => ({
-                ...prev,
-                [name]: type === "number" ? Number(value) : value
-            }));
-        }
-    };
 
     const handleUpdateRecipe = (e) => {
         e.preventDefault();
@@ -84,7 +56,6 @@ export default function RecipeForm() {
                     type="url"
                     name="image"
                     defaultValue={image}
-                    onChange={handleChange}
                     required
                     className="w-full p-2 border rounded"
                     placeholder="https://example.com/image.jpg"
@@ -97,7 +68,6 @@ export default function RecipeForm() {
                     type="text"
                     name="title"
                     defaultValue={title}
-                    onChange={handleChange}
                     required
                     className="w-full p-2 border rounded"
                 />
@@ -109,7 +79,6 @@ export default function RecipeForm() {
                     type="text"
                     name="ingredients"
                     defaultValue={ingredients}
-                    onChange={handleChange}
                     placeholder="e.g., eggs, sugar, flour"
                     required
                     className="w-full p-2 border rounded"
@@ -121,7 +90,6 @@ export default function RecipeForm() {
                 <textarea
                     name="instructions"
                     defaultValue={instructions}
-                    onChange={handleChange}
                     required
                     className="w-full p-2 border rounded"
                     rows="4"
@@ -133,7 +101,6 @@ export default function RecipeForm() {
                 <select
                     name="cuisineType"
                     defaultValue={cuisineType}
-                    onChange={handleChange}
                     className="w-full p-2 border rounded"
                 >
                     {cuisineOptions.map((cuisine) => (
@@ -150,7 +117,6 @@ export default function RecipeForm() {
                     type="number"
                     name="preparationTime"
                     defaultValue={preparationTime}
-                    onChange={handleChange}
                     className="w-full p-2 border rounded"
                 />
             </div>
@@ -173,7 +139,6 @@ export default function RecipeForm() {
                                 type="checkbox"
                                 defaultValue={categories}
                                 value={category}
-                                onChange={handleChange}
                             />
                             <span>{category}</span>
                         </label>

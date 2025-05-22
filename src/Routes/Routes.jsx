@@ -6,6 +6,9 @@ import MyRecipe from "../Components/MyRecipe";
 import AllRecipe from "../Components/AllRecipe";
 import RecipeDetails from "../Components/RecipeDetails";
 import UpdateRecipe from "../Components/UpdateRecipe"
+import Login from "../Pages/Login";
+import Register from "../Pages/Register";
+import AuthLayout from "../Layouts/AuthLayout";
 
 
 export const router = createBrowserRouter([
@@ -15,33 +18,48 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        loader: ()=> fetch('http://localhost:3000/recipies'),
-        Component:Home
+        loader: () => fetch('http://localhost:3000/recipies'),
+        Component: Home
       },
       {
-        path:'addrecipe',
-        Component:AddRecipies
+        path: 'addrecipe',
+        Component: AddRecipies
       },
       {
-        path:'myrecipe',
-        loader: ()=> fetch('http://localhost:3000/recipies'),
-        Component:MyRecipe
+        path: 'myrecipe',
+        loader: () => fetch('http://localhost:3000/recipies'),
+        Component: MyRecipe
       },
       {
-        path:'recipedetails/:id',
+        path: 'recipedetails/:id',
+        loader: ({ params }) => fetch(`http://localhost:3000/recipies/${params.id}`),
         Component: RecipeDetails,
       },
       {
-        path:'updaterecipe/:id',
-        loader:({params})=> fetch(`http://localhost:3000/recipies/${params.id}`),
+        path: 'updaterecipe/:id',
+        loader: ({ params }) => fetch(`http://localhost:3000/recipies/${params.id}`),
         Component: UpdateRecipe,
       },
       {
-        path:'allrecipe',
-        Component:AllRecipe
+        path: 'allrecipe',
+        Component: AllRecipe
       },
-      
-      
+
+
+    ]
+  },
+  {
+    path: '/auth',
+    Component: AuthLayout,
+    children: [
+      {
+        path: '/auth/login',
+        Component: Login
+      },
+      {
+        path: '/auth/register',
+        Component: Register
+      },
     ]
   },
 ]);
