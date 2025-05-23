@@ -1,7 +1,7 @@
 import React, { use } from 'react';
 import { Link, NavLink } from 'react-router';
 import userProfile from '../assets/user.png'
-import icon from '../assets/restaurant-service-abstract-logo-template-symbol-icon-free-vector.jpg'
+import icon from '../assets/food-icon-background-png-favpng-LpukJ2X1XZ54jEJfA0YyfnFZ2.jpg'
 import { AuthContext } from '../Provider/AuthProvider';
 const Navbar = () => {
     const { user, logOut } = use(AuthContext);
@@ -18,10 +18,10 @@ const Navbar = () => {
                 <img className='w-15' src={icon} alt="" />
             </div>
             <div className="nav flex gap-5 lg:ml-60 text-xl">
-                <NavLink to='/'>Home</NavLink>
-                <NavLink to='/allrecipe'>All Recipes</NavLink>
-                <NavLink to='/addrecipe'>Add Recipe</NavLink>
-                <NavLink to='/myrecipe'>My Recipes</NavLink>
+                <NavLink className='nav_text' to='/'>Home</NavLink>
+                <NavLink className='nav_text' to='/allrecipe'>All Recipes</NavLink>
+                <NavLink className='nav_text' to='/addrecipe'>Add Recipe</NavLink>
+                <NavLink className='nav_text' to='/myrecipe'>My Recipes</NavLink>
             </div>
             <div className="login-btn flex gap-5">
                 <img className="w-12 rounded-full" src={`${user ? user.photoURL

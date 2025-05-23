@@ -21,7 +21,7 @@ const AllRecipes = () => {
     }, []);
 
     return (
-        <div className="max-w-7xl mx-auto px-4 py-10">
+        <div className="max-w-7xl mx-auto px-4 py-10 all_recipe">
             <h2 className="text-4xl font-bold text-center text-indigo-600 mb-10">
                 🍴 All Recipes
             </h2>

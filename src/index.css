@@ -8,3 +8,37 @@
 a.active {
   @apply bg-base-300;
 }
+
+#icon {
+  width: 30px;
+  cursor: pointer;
+}
+
+:root {
+  --primary-color:#edf2fc;
+  --secondary-color:#212121;
+}
+.dark-theme {
+  --primary-color: #000106;
+  --secondary-color: #fff;
+}
+
+body {
+  background-color: var(--primary-color);
+}
+.color_home {
+  background-color: var(--primary-color);
+}
+
+.all_recipe {
+  background-color: var(--primary-color);
+}
+.header-text {
+  color: var(--secondary-color);
+}
+.nav_text {
+  color: var(--secondary-color);
+}
+.footer-text{
+   color: var(--secondary-color);
+}
