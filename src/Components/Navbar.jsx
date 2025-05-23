@@ -13,7 +13,8 @@ const Navbar = () => {
         })
     }
     return (
-        <div className='flex justify-between items-center'>
+        <div className='flex justify-between items-center
+        text-black dark:text-white  bg-white dark:bg-black'>
             <div className="">
                 <img className='w-15' src={icon} alt="" />
             </div>

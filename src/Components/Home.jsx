@@ -5,6 +5,8 @@ import { FaHeart } from "react-icons/fa";
 import { Link, useNavigate } from "react-router";
 import Slider from "../Slider/Slider";
 import SubscribeBanner from "./SubscribeBanner";
+import ThemeToggle from "./ToggleTheme";
+
 
 const TopRecipes = () => {
     const [topRecipes, setTopRecipes] = useState([]);
@@ -24,7 +26,10 @@ const TopRecipes = () => {
     }, []);
 
     return (
-        <div>
+        <div className="min-h-screen
+       
+        ">
+            <ThemeToggle></ThemeToggle>
             <section className="bg-gray-50 py-12 px-6 md:px-16 all_recipe">
                 <h2 className="text-3xl font-bold text-center text-indigo-700 mb-10">🔥 Top Recipes</h2>
 

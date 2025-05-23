@@ -2,6 +2,8 @@
 
 @import "tailwindcss";
 @plugin "daisyui";
+@tailwind utilities;
+
 * {
   font-family: "Poppins", sans-serif;
 }
@@ -14,7 +16,7 @@ a.active {
   cursor: pointer;
 }
 
-:root {
+/* :root {
   --primary-color:#edf2fc;
   --secondary-color:#212121;
 }
@@ -41,4 +43,4 @@ body {
 }
 .footer-text{
    color: var(--secondary-color);
-}
+} */
