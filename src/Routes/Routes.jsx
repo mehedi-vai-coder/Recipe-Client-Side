@@ -21,7 +21,6 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        loader: ({ params }) => fetch(`http://localhost:3000/recipies/${params.id}`),
         Component: Home,
         hydrateFallbackElement: <Loading></Loading>
       },

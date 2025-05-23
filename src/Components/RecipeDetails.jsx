@@ -4,7 +4,7 @@ import { Link, useLoaderData } from 'react-router';
 const RecipeDetails = () => {
     const data =useLoaderData();
     const { image, title, cuisineType, instructions, ingredients, _id } = data;
-    console.log(data)
+
     return (
          <div className="card card-side bg-base-100 shadow-sm mt-30 mb-30">
             <figure>

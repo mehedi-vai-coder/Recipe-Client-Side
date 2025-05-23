@@ -5,7 +5,6 @@ import Swal from 'sweetalert2';
 const RecipeCard = ({ recipe, recipes, setRecipes }) => {
     const { image, title, cuisineType, instructions, ingredients, _id } = recipe;
     const handleDelete = (id) => {
-        console.log(id)
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",

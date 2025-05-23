@@ -2,15 +2,19 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router";
 
+
 const AllRecipes = () => {
     const [recipes, setRecipes] = useState([]);
+    const [selectedCuisine, setSelectedCuisine] = useState("All");
 
-
-    // fatching data from server
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await axios.get("http://localhost:3000/recipies");
+                const url =
+                    selectedCuisine === "All"
+                        ? "http://localhost:3000/recipies"
+                        : `http://localhost:3000/recipies?cuisine=${selectedCuisine}`;
+                const res = await axios.get(url);
                 setRecipes(res.data);
             } catch (err) {
                 console.error("Failed to fetch recipes", err);
@@ -18,30 +22,58 @@ const AllRecipes = () => {
         };
 
         fetchData();
-    }, []);
+    }, [selectedCuisine]);
+
+    const filteredRecipes =
+        selectedCuisine === "All"
+            ? recipes
+            : recipes.filter((recipe) => recipe.cuisineType === selectedCuisine);
 
     return (
-        <div className="max-w-7xl mx-auto px-4 py-10 
-         bg-white dark:bg-black text-black dark:text-white
-        ">
+        <div className="max-w-7xl mx-auto px-4 py-10 bg-white dark:bg-black text-black dark:text-white">
             <h2 className="text-4xl font-bold text-center text-indigo-600 mb-10">
-                🍴 All Recipes
+                All Recipes
             </h2>
 
+            <div className="mb-6 text-center">
+                <label className="mr-2 font-semibold dark:text-white text-black">
+                    Filter by Cuisine:
+                </label>
+                <select
+                    value={selectedCuisine}
+                    onChange={(e) => setSelectedCuisine(e.target.value)}
+                    className="border px-3 py-2 rounded bg-white dark:bg-gray-800 text-black dark:text-white"
+                >
+                    <option value="All">All</option>
+                    <option value="Italian">Italian</option>
+                    <option value="Mexican">Mexican</option>
+                    <option value="Indian">Indian</option>
+                    <option value="Chinese">Chinese</option>
+                </select>
+            </div>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                {recipes.map((recipe) => (
-                    <div key={recipe._id} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
+                {filteredRecipes.map((recipe) => (
+                    <div
+                        key={recipe._id}
+                        className="bg-white dark:bg-white/10 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300"
+                    >
                         <img
                             src={recipe.image}
                             alt={recipe.title}
                             className="w-full h-48 object-cover"
                         />
                         <div className="p-4 space-y-2">
-                            <h3 className="text-xl font-semibold text-gray-800">{recipe.title}</h3>
-                            <p className="text-sm text-gray-500">
-                                ⏱️ {recipe.preparationTime} mins • 🌍 {recipe.cuisineType}
-                            </p>
+                            <h3 className="text-xl font-semibold text-gray-800 dark:text-white">
+                                {recipe.title}
+                            </h3>
                             <p className="text-sm text-gray-600">
+                                {recipe.preparationTime} mins • {" "}
+                                <span className="text-indigo-500 font-medium">
+                                    {recipe.cuisineType}
+                                </span>
+                            </p>
+                            <p className="text-sm text-gray-500">
                                 {recipe.ingredients.slice(0, 60)}...
                             </p>
                             <Link

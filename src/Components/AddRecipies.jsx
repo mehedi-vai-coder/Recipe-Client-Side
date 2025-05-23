@@ -1,36 +1,40 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router";
 
 const AddRecipe = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         image: "",
         title: "",
         ingredients: "",
         instructions: "",
-        cuisineType: "",
-        preparationTime: "",
+        cuisine: "Italian",
+        prepTime: "",
         categories: [],
         likeCount: 0,
     });
 
-    const categoriesList = ["Breakfast", "Lunch", "Dinner", "Dessert", "Vegan"];
-    const cuisineTypes = ["Italian", "Mexican", "Indian", "Chinese", "Others"];
+    const categoryOptions = ["Breakfast", "Lunch", "Dinner", "Dessert", "Vegan"];
+    const cuisineOptions = ["Italian", "Mexican", "Indian", "Chinese", "Others"];
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        const { name, value, type, checked } = e.target;
+        if (type === "checkbox") {
+            setFormData((prev) => ({
+                ...prev,
+                categories: checked
+                    ? [...prev.categories, value]
+                    : prev.categories.filter((cat) => cat !== value),
+            }));
+        } else {
+            setFormData((prev) => ({ ...prev, [name]: value }));
+        }
     };
 
-    const handleCheckbox = (e) => {
-        const { value, checked } = e.target;
-        const updatedCategories = checked
-            ? [...formData.categories, value]
-            : formData.categories.filter((cat) => cat !== value);
-
-        setFormData({ ...formData, categories: updatedCategories });
-    };
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const form = e.target;
         const formData = new FormData(form);
@@ -49,6 +53,7 @@ const AddRecipe = () => {
             .then(data => {
                 if (data.insertedId) {
                     console.log('After adding Coffee to db', data)
+                    navigate(`${location.state ? location.state : "/myrecipe"}`)
                     Swal.fire({
                         title: "Recipe Added successfully.",
                         icon: "success",
@@ -58,99 +63,119 @@ const AddRecipe = () => {
                 }
             });
         console.log(formData); // will replace with API call
+        try {
+            const user = JSON.parse(localStorage.getItem("user")); // adjust if using context/auth
+            const res = await axios.post("/api/recipes", {
+                ...formData,
+                userId: user?._id || "guest",
+            });
+            toast.success("Recipe added successfully!");
+            setFormData({
+                image: "",
+                title: "",
+                ingredients: "",
+                instructions: "",
+                cuisine: "Italian",
+                prepTime: "",
+                categories: [],
+                likeCount: {
+                    type: Number,
+                    default: 0, 
+                },
+                userId: String, 
+            });
+        } catch (error) {
+            toast.error("Failed to add recipe");
+            console.error(error);
+        }
     };
 
     return (
-        <div className="max-w-2xl mx-auto p-8 shadow-2xl rounded-2xl mt-10
-        dark:text-white 
-        ">
-            <h2 className="text-3xl font-bold text-center mb-6 text-indigo-600">🍽️ Add a New Recipe</h2>
-
+        <div className="max-w-3xl mx-auto mt-8 p-6 bg-white rounded shadow dark:text-black">
+            <h2 className="text-2xl font-bold mb-6 text-center">Add New Recipe</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <input
                     type="text"
                     name="image"
                     placeholder="Image URL"
+                    className="w-full p-2 border rounded"
                     value={formData.image}
                     onChange={handleChange}
-                    className="w-full border rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
                     required
                 />
-
                 <input
                     type="text"
                     name="title"
                     placeholder="Recipe Title"
+                    className="w-full p-2 border rounded"
                     value={formData.title}
                     onChange={handleChange}
-                    className="w-full border rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
                     required
                 />
-
                 <textarea
                     name="ingredients"
-                    placeholder="Ingredients"
+                    placeholder="Ingredients (comma separated)"
+                    className="w-full p-2 border rounded"
                     value={formData.ingredients}
                     onChange={handleChange}
-                    className="w-full border rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
                     required
                 />
-
                 <textarea
                     name="instructions"
                     placeholder="Instructions"
+                    className="w-full p-2 border rounded"
                     value={formData.instructions}
                     onChange={handleChange}
-                    className="w-full border rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
                     required
                 />
 
-                <select
-                    name="cuisineType"
-                    value={formData.cuisineType}
-                    onChange={handleChange}
-                    className="w-full border rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                    required
-                >
-                    <option value="">Select Cuisine Type</option>
-                    {cuisineTypes.map((type) => (
-                        <option key={type} value={type}>{type}</option>
-                    ))}
-                </select>
+                <div className="flex items-center gap-4">
+                    <label className="font-semibold">Cuisine Type:</label>
+                    <select
+                        name="cuisine"
+                        value={formData.cuisine}
+                        onChange={handleChange}
+                        className="p-2 border rounded"
+                    >
+                        {cuisineOptions.map((type) => (
+                            <option key={type} value={type}>{type}</option>
+                        ))}
+                    </select>
+                </div>
 
                 <input
                     type="number"
-                    name="preparationTime"
-                    placeholder="Preparation Time (in minutes)"
-                    value={formData.preparationTime}
+                    name="prepTime"
+                    placeholder="Preparation Time (minutes)"
+                    className="w-full p-2 border rounded"
+                    value={formData.prepTime}
                     onChange={handleChange}
-                    className="w-full border rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
                     required
                 />
 
-                <fieldset className="border rounded-xl p-4">
-                    <legend className="text-lg font-semibold mb-2 text-indigo-500">Select Categories</legend>
-                    <div className="flex flex-wrap gap-4">
-                        {categoriesList.map((cat) => (
+                <div>
+                    <label className="font-semibold">Categories:</label>
+                    <div className="flex flex-wrap gap-4 mt-2">
+                        {categoryOptions.map((cat) => (
                             <label key={cat} className="flex items-center gap-2">
                                 <input
                                     type="checkbox"
+                                    name="categories"
                                     value={cat}
-                                    onChange={handleCheckbox}
                                     checked={formData.categories.includes(cat)}
-                                    className="accent-indigo-600"
+                                    onChange={handleChange}
                                 />
                                 {cat}
                             </label>
                         ))}
                     </div>
-                </fieldset>
+                </div>
 
                 <button
                     type="submit"
-                    className="w-full bg-indigo-600 text-white py-2 rounded-xl font-semibold hover:bg-indigo-700 transition duration-300"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white p-2 rounded"
                 >
-                    ➕ Add Recipe
+                    Add Recipe
                 </button>
             </form>
         </div>
