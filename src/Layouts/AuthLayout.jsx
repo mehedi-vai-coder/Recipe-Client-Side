@@ -4,7 +4,7 @@ import { Outlet } from 'react-router';
 
 const AuthLayout = () => {
     return (
-        <div className='bg-base-200 min-h-screen'>
+        <div className='bg-base-200 min-h-screen  text-black dark:text-black  dark:bg-black'>
             <header className='w-11/12 mx-auto '>
                 <Navbar></Navbar>
             </header>

@@ -1,12 +1,12 @@
-import React from 'react';
+
 import { Link } from 'react-router';
 import Swal from 'sweetalert2';
 
-const RecipeCard = ({ recipe,setRecipes,recipes}) => {
-    // console.log(recipe, recipes)
+const RecipeCard = ({ recipe,recipes,setRecipes }) => {
+    console.log(recipes)
     const { image, title, cuisineType, instructions, ingredients, _id } = recipe;
-    const handleDelete = (_id) => {
-        console.log(_id)
+    const handleDelete = (id) => {
+        console.log(id)
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -18,21 +18,22 @@ const RecipeCard = ({ recipe,setRecipes,recipes}) => {
         }).then((result) => {
             if (result.isConfirmed) {
                 // start deleting the recipe
-                fetch(`http://localhost:3000/recipies/${_id}`, {
+                fetch(`http://localhost:3000/recipies/${id}`, {
                     method: 'DELETE'
                 })
                     .then(res => res.json())
                     .then(data => {
-                        // console.log('after delete', data);
                         if (data.deletedCount) {
+                           
+                            const remainingRecipies =recipes.filter(res => res._id !== id);
+                            setRecipes(remainingRecipies);
+
                             Swal.fire({
                                 title: "Deleted!",
                                 text: "Your Recipe has been deleted.",
                                 icon: "success"
                             });
-                            // Remove the recipe from the state 
-                          const remainingRecipe =recipes.filter(res => res._id !== _id)
-                          setRecipes(remainingRecipe);
+
                         }
                     })
 
