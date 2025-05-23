@@ -3,6 +3,7 @@
 @import "tailwindcss";
 @plugin "daisyui";
 @tailwind utilities;
+@custom-variant dark (&:where(.dark, .dark *));
 
 * {
   font-family: "Poppins", sans-serif;

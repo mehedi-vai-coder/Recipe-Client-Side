@@ -7,7 +7,7 @@ import Footer from '../Components/Footer';
 
 const HomeLayout = () => {
     return (
-        <div className='w-11/12 mx-auto'>
+        <div className='px-30 mx-auto  text-black dark:text-white  bg-white dark:bg-black'>
             <header>
                 <Header></Header>
             </header>

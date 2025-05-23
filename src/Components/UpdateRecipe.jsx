@@ -48,7 +48,7 @@ export default function RecipeForm() {
     };
 
     return (
-        <form onSubmit={handleUpdateRecipe} className="max-w-lg mx-auto p-4 space-y-4 bg-white shadow rounded-xl">
+        <form onSubmit={handleUpdateRecipe} className="max-w-lg mx-auto p-4 space-y-4 bg-white shadow rounded-xl dark:text-black">
             <h2 className="text-2xl font-semibold text-center">Update Your Recipe</h2>
             <div>
                 <label className="block">Image URL</label>

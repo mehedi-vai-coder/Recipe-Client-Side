@@ -40,7 +40,7 @@ const RecipeCard = ({ recipe,setRecipes,recipes}) => {
         });
     }
     return (
-        <div className="card card-side bg-base-100 shadow-sm">
+        <div className="card card-side bg-base-100 shadow-sm dark:text-black">
             <figure>
                 <img
                     src={image} />

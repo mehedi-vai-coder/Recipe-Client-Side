@@ -5,7 +5,7 @@ import { FaHeart } from "react-icons/fa";
 import { Link, useNavigate } from "react-router";
 import Slider from "../Slider/Slider";
 import SubscribeBanner from "./SubscribeBanner";
-import ThemeToggle from "./ToggleTheme";
+
 
 
 const TopRecipes = () => {
@@ -26,11 +26,11 @@ const TopRecipes = () => {
     }, []);
 
     return (
-        <div className="min-h-screen
-       
-        ">
-            <ThemeToggle></ThemeToggle>
-            <section className="bg-gray-50 py-12 px-6 md:px-16 all_recipe">
+        <div className="min-h-screen  text-black dark:text-white  bg-white dark:bg-black ">
+            <section>
+                <Slider></Slider>
+            </section>
+            <section className="py-12 px-6 md:px-16 all_recipe  text-black dark:text-white  bg-white dark:bg-black">
                 <h2 className="text-3xl font-bold text-center text-indigo-700 mb-10">🔥 Top Recipes</h2>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
@@ -69,9 +69,7 @@ const TopRecipes = () => {
                 </div>
 
             </section>
-            <section>
-                <Slider></Slider>
-            </section>
+
             <section>
                 <SubscribeBanner></SubscribeBanner>
             </section>
