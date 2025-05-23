@@ -21,7 +21,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        loader: () => fetch('http://localhost:3000/recipies'),
+        loader: ({ params }) => fetch(`http://localhost:3000/recipies/${params.id}`),
         Component: Home,
         hydrateFallbackElement: <Loading></Loading>
       },
@@ -58,7 +58,7 @@ export const router = createBrowserRouter([
       {
         path: 'specificrecipedetails/:id',
         loader: ({ params }) => fetch(`http://localhost:3000/recipies/${params.id}`),
-        element:  <PrivateRoute>
+        element: <PrivateRoute>
           <AllRecipiesDetails></AllRecipiesDetails>
         </PrivateRoute>,
         hydrateFallbackElement: <Loading></Loading>
