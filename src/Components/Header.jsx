@@ -1,18 +1,27 @@
 import { format } from 'date-fns';
 import React from 'react';
-import Icon from "../assets/moon.png"
-import '../Theme/ThemeToggle'
+import { Typewriter } from 'react-simple-typewriter'
 const Header = () => {
     return (
         <div className='text-center space-y-4 
         text-black dark:text-white  bg-white dark:bg-black
-        '>
-            <h2 className='lg:text-4xl test-3xl font-bold  mt-3'>Savor Every Step — From Scratch to Served</h2>
-            <p className=' text-amber-800'>Your ultimate digital kitchen companion. Discover, save, and share delicious moments.</p>
-            <p className='font-semibold'>{format(new Date(), "EEEE, MMMM MM, yyyy")}</p>
+            <Typewriter
+         ' style={{ paddingTop: '1rem', fontSize: '2rem', margin: 'auto 0', fontWeight: 'bold' }}>
+          
+                <Typewriter
+                    words={['Savor Every Step — From Scratch to Served.']}
+                    loop={10}
+                    cursor
+                    cursorStyle='_'
+                    typeSpeed={70}
+                    deleteSpeed={50}
+                    delaySpeed={1000}
+                />
 
-            {/* <img className='mx-auto text-end' src={Icon} alt="" id='icon' /> */}
-         
+                <p className='text-xl text-amber-800'>Your ultimate digital kitchen companion. Discover, save, and share delicious moments.</p>
+                <p className='font-semibold'>{format(new Date(), "EEEE, MMMM MM, yyyy")}</p>
+
+
         </div>
     );
 };

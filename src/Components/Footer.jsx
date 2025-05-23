@@ -3,7 +3,7 @@ import React from 'react';
 const Footer = () => {
     return (
         <footer className="all_recipe footer footer-horizontal footer-center -content p-10 
-        text-black dark:text-white  bg-white dark:bg-black
+        text-black dark:text-white  bg-gray-50 dark:bg-black
         ">
             <aside>
                 <svg

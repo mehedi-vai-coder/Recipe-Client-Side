@@ -2,7 +2,7 @@ import React from "react";
 
 const SubscribeBanner = () => {
     return (
-        <section className="py-12 px-6 md:px-16 rounded-2xl shadow-xl mt-16 mb-10  text-black dark:text-white dark:bg-black bg-gray-400 ">
+        <section className="py-12 px-6 md:px-16 rounded-2xl shadow-xl mt-16 mb-10  text-black dark:text-white dark:bg-blue-400 bg-gray-400 ">
             <div className="max-w-4xl mx-auto text-center dark:border-white">
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">
                     💌 Subscribe to Get Delicious Recipes

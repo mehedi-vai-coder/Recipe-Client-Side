@@ -1,7 +1,6 @@
 // import { useState } from "react";
 import { useLoaderData } from "react-router";
 import Swal from "sweetalert2";
-
 // Itam list
 const initialCategories = [
     "Breakfast",
