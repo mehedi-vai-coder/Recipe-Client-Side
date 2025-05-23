@@ -43,7 +43,7 @@ const AllRecipes = () => {
                                 {recipe.ingredients.slice(0, 60)}...
                             </p>
                             <Link
-                                to={`/recipes/${recipe._id}`}
+                                to={`/specificrecipedetails/${recipe._id}`}
                                 className="inline-block mt-3 text-indigo-600 hover:text-indigo-800 font-medium"
                             >
                                 See Details →
