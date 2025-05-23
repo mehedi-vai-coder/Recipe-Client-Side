@@ -2,8 +2,7 @@
 import { Link } from 'react-router';
 import Swal from 'sweetalert2';
 
-const RecipeCard = ({ recipe,recipes,setRecipes }) => {
-    console.log(recipes)
+const RecipeCard = ({ recipe, recipes, setRecipes }) => {
     const { image, title, cuisineType, instructions, ingredients, _id } = recipe;
     const handleDelete = (id) => {
         console.log(id)
@@ -24,8 +23,8 @@ const RecipeCard = ({ recipe,recipes,setRecipes }) => {
                     .then(res => res.json())
                     .then(data => {
                         if (data.deletedCount) {
-                           
-                            const remainingRecipies =recipes.filter(res => res._id !== id);
+
+                            const remainingRecipies = recipes.filter(res => res._id !== id);
                             setRecipes(remainingRecipies);
 
                             Swal.fire({
@@ -56,7 +55,22 @@ const RecipeCard = ({ recipe,recipes,setRecipes }) => {
                         <button className="btn btn-primary">View</button>
                     </Link>
                     <Link to={`/updaterecipe/${_id}`}>
-                        <button className="btn btn-success">Edit</button>
+                        <button className="btn btn-success" onClick={() => document.getElementById('my_modal_5').showModal()}>Update</button>
+                        <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
+                            <div className="modal-box">
+                                <h3 className="font-bold text-lg">Hello!</h3>
+                                <p className="py-4">Press ESC key or click the button below to close</p>
+                                <div className="modal-action">
+                                    <form method="dialog">
+                                        {/* if there is a button in form, it will close the modal */}
+                                        <button className="btn btn-success">Update</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </dialog>
+                    </Link>
+                    <Link >
+
                     </Link>
                     <button onClick={() => handleDelete(_id)} className="btn btn-warning">Delete</button>
                 </div>

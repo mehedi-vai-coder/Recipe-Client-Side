@@ -21,7 +21,7 @@ const Navbar = () => {
                 <img className='w-15' src={icon} alt="" />
                 <h1 className='text-2xl font-black'>RECIPE BOOK</h1>
             </div>
-            <div className="nav flex gap-5 lg:ml-50 lg:text-xl">
+            <div className="nav flex gap-5 lg:ml-30 lg:text-xl">
                 <NavLink className='nav_text' to='/'>Home</NavLink>
                 <NavLink className='nav_text' to='/allrecipe'>All Recipes</NavLink>
                 <NavLink className='nav_text' to='/addrecipe'>Add Recipe</NavLink>

@@ -1,5 +1,5 @@
 // import { useState } from "react";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 // Itam list
 const initialCategories = [
@@ -15,7 +15,7 @@ const cuisineOptions = ["Italian", "Mexican", "Indian", "Chinese", "Others"];
 
 export default function RecipeForm() {
     const { _id, image, title, ingredients, instructions, cuisineType, preparationTime, categories } = useLoaderData();
-
+    const navigate = useNavigate();
 
     const handleUpdateRecipe = (e) => {
         e.preventDefault();
@@ -42,6 +42,7 @@ export default function RecipeForm() {
                         showConfirmButton: false,
                         timer: 1500
                     });
+                    navigate(`${location.state ? location.state : "/myrecipe"}`)
                 }
             });
     };
