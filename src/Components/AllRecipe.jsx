@@ -12,8 +12,8 @@ const AllRecipes = () => {
             try {
                 const url =
                     selectedCuisine === "All"
-                        ? "http://localhost:3000/recipies"
-                        : `http://localhost:3000/recipies?cuisine=${selectedCuisine}`;
+                        ? "http://localhost:3000/recipes"
+                        : `http://localhost:3000/recipes?cuisine=${selectedCuisine}`;
                 const res = await axios.get(url);
                 setRecipes(res.data);
             } catch (err) {

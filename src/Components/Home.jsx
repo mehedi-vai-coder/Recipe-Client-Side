@@ -12,7 +12,7 @@ const TopRecipes = () => {
     useEffect(() => {
         const fetchTop = async () => {
             try {
-                const res = await axios.get("http://localhost:3000/top-recipies"); 
+                const res = await axios.get("http://localhost:3000/top-recipes"); 
                 setTopRecipes(res.data);
             } catch (error) {
                 console.error("Failed to load top recipes", error);

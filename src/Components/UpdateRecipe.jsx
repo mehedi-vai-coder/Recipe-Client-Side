@@ -25,7 +25,7 @@ export default function RecipeForm() {
         console.log(UpdatedRecipe);
 
         // send Recipe data to the db 
-        fetch(`http://localhost:3000/recipies/${_id}`, {
+        fetch(`http://localhost:3000/recipes/${_id}`, {
             method: 'PUT',
             headers: {
                 'content-type': 'application/json'

@@ -16,7 +16,7 @@ const RecipeCard = ({ recipe, recipes, setRecipes }) => {
         }).then((result) => {
             if (result.isConfirmed) {
                 // start deleting the recipe
-                fetch(`http://localhost:3000/recipies/${id}`, {
+                fetch(`http://localhost:3000/recipes/${id}`, {
                     method: 'DELETE'
                 })
                     .then(res => res.json())

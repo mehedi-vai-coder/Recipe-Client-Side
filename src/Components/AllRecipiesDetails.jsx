@@ -13,7 +13,7 @@ const RecipeDetails = () => {
     const fetchRecipe = useCallback(async () => {
         setLoading(true);
         try {
-            const res = await axios.get(`http://localhost:3000/recipies/${id}`);
+            const res = await axios.get(`http://localhost:3000/recipes/${id}`);
             setRecipe(res.data);
         } catch (err) {
             console.error(err);
@@ -32,7 +32,7 @@ const RecipeDetails = () => {
 
         setLiked(true);
         try {
-            const res = await axios.patch(`http://localhost:3000/recipies/${id}/like`);
+            const res = await axios.patch(`http://localhost:3000/recipes/${id}/like`);
            
             setRecipe(res.data); 
         } catch (err) {

@@ -42,7 +42,7 @@ const AddRecipe = () => {
         
 
         // send Recipe data to the db 
-        fetch('http://localhost:3000/recipies', {
+        fetch('http://localhost:3000/recipes', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -65,7 +65,7 @@ const AddRecipe = () => {
         // console.log(formData); 
         try {
             const user = JSON.parse(localStorage.getItem("user")); 
-            const res = await axios.post("http://localhost:3000/recipies",
+            const res = await axios.post("http://localhost:3000/recipes",
                 console.log(res), {
                 ...formData,
                 userId: user?._id || "guest",
