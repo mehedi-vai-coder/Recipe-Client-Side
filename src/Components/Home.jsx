@@ -12,7 +12,7 @@ const TopRecipes = () => {
     useEffect(() => {
         const fetchTop = async () => {
             try {
-                const res = await axios.get("http://localhost:3000/top-recipies"); // ✅ Updated API
+                const res = await axios.get("http://localhost:3000/top-recipies"); 
                 setTopRecipes(res.data);
             } catch (error) {
                 console.error("Failed to load top recipes", error);
@@ -49,7 +49,7 @@ const TopRecipes = () => {
                                     {recipe.title}
                                 </h3>
                                 <p className="text-sm text-gray-500 mb-1">
-                                    🌍 {recipe.cuisineType}
+                                    🌍 {recipe.cuisine}
                                 </p>
                                 <p className="text-sm text-pink-600 mb-2 flex items-center gap-1">
                                     <FaHeart className="text-red-500" /> {recipe.likeCount} likes

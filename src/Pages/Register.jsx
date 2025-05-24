@@ -6,11 +6,11 @@ import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 const Register = () => {
     const { createUser, setUser, updateUser } = use(AuthContext)
     const [nameError, setNameError] = useState();
-     const [validPass, setValidPass] = useState('');
-      const provider = new GoogleAuthProvider;
+    const [validPass, setValidPass] = useState('');
+    const provider = new GoogleAuthProvider;
     const navigate = useNavigate();
-   
-     const handleGoogleSignIn = () => {
+
+    const handleGoogleSignIn = () => {
         signInWithPopup(auth, provider)
             .then(result => {
                 navigate(`${location.state ? location.state : "/"}`)
@@ -48,11 +48,11 @@ const Register = () => {
         createUser(email, password)
             .then(result => {
                 const user = result.user
+                   navigate(`${location.state ? location.state : "/"}`)
                 updateUser({ displayName: name, photoURL: photourl })
                     .then(() => {
 
                         setUser({ ...user, displayName: name, photoURL: photourl })
-                        navigate("/")
                     }).catch((error) => {
                         console.log(error)
                         setUser(user);
@@ -94,7 +94,7 @@ const Register = () => {
                     <p className='text-center font-semibold'>Already Have an account? {" "}
                         <Link className='text-blue-400' to='/auth/login'>Login</Link></p>
                 </form>
-                 <button navigate="/blog"  onClick={handleGoogleSignIn} className="btn btn-link mt-4">Sign In With Google</button>
+                <button onClick={handleGoogleSignIn} className="btn btn-link mt-4">Sign In With Google</button>
             </div>
         </div>
     );

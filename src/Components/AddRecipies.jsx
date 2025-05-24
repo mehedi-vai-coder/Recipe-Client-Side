@@ -39,7 +39,7 @@ const AddRecipe = () => {
         const form = e.target;
         const formData = new FormData(form);
         const newRecipe = Object.fromEntries(formData.entries());
-        console.log(newRecipe);
+        
 
         // send Recipe data to the db 
         fetch('http://localhost:3000/recipies', {
@@ -52,7 +52,7 @@ const AddRecipe = () => {
             .then(res => res.json())
             .then(data => {
                 if (data.insertedId) {
-                    console.log('After adding Coffee to db', data)
+                    // console.log('After adding Coffee to db', data)
                     navigate(`${location.state ? location.state : "/myrecipe"}`)
                     Swal.fire({
                         title: "Recipe Added successfully.",
@@ -62,10 +62,11 @@ const AddRecipe = () => {
                     form.reset();
                 }
             });
-        console.log(formData); // will replace with API call
+        // console.log(formData); 
         try {
-            const user = JSON.parse(localStorage.getItem("user")); // adjust if using context/auth
-            const res = await axios.post("/api/recipes", {
+            const user = JSON.parse(localStorage.getItem("user")); 
+            const res = await axios.post("http://localhost:3000/recipies",
+                console.log(res), {
                 ...formData,
                 userId: user?._id || "guest",
             });

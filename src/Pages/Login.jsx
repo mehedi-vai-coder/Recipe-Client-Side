@@ -31,7 +31,7 @@ const Login = () => {
       .then((result) => {
         const user = result.user
         navigate(`${location.state ? location.state : "/"}`)
-        console.log(user)
+        console.log(user.email)
       })
       .catch((error) => {
         const errormasses = error.message
@@ -61,7 +61,7 @@ const Login = () => {
           </fieldset>
           <p className='text-center font-semibold'>Don't Have an account? <Link className='text-blue-400' to='/auth/register'>Register</Link></p>
         </form>
-         <button navigate="/blog"  onClick={handleGoogleSignIn} className="btn btn-link mt-4">Sign In With Google</button>
+         <button  onClick={handleGoogleSignIn} className="btn btn-link mt-4">Sign In With Google</button>
       </div>
     </div>
   );

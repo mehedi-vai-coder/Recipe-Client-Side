@@ -1,64 +1,79 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
-import { useLoaderData, useParams } from "react-router";
-
+import { useParams } from "react-router";
 
 const RecipeDetails = () => {
     const { id } = useParams();
-    const recipeData = useLoaderData();
-    const [recipe, setRecipe] = useState(recipeData);
+    const [recipe, setRecipe] = useState(null);
     const [loading, setLoading] = useState(true);
     const [liked, setLiked] = useState(false);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
-        axios
-            .get(`http://localhost:3000/recipies/${id}`) // Replace with real API
-            .then((res) => {
-                setRecipe(res.data);
-                setLoading(false);
-            })
-            .catch(() => {
-                setError("Failed to fetch recipe.");
-                setLoading(false);
-            });
+    // Stable fetch function (fixes useEffect dependency warning)
+    const fetchRecipe = useCallback(async () => {
+        setLoading(true);
+        try {
+            const res = await axios.get(`http://localhost:3000/recipies/${id}`);
+            setRecipe(res.data);
+        } catch (err) {
+            console.error(err);
+            setError("Failed to fetch recipe.");
+        } finally {
+            setLoading(false);
+        }
     }, [id]);
 
-    const handleLike = () => {
-        setLiked(true); // Like button clicked, now disable it
-        // Optional: post like to server
-        // axios.post(`/api/like/${id}`);
+    useEffect(() => {
+        fetchRecipe();
+    }, [fetchRecipe]);
+
+    const handleLike = async () => {
+        if (liked || !recipe) return;
+
+        setLiked(true);
+        try {
+            const res = await axios.patch(`http://localhost:3000/recipies/${id}/like`);
+           
+            setRecipe(res.data); 
+        } catch (err) {
+            console.error("Failed to like recipe", err);
+            setLiked(false); 
+
+           
+            setRecipe((prev) => ({
+                ...prev,
+                likeCount: (prev?.likeCount || 1) + 1,
+            }));
+        }
     };
 
-    if (loading) return <p style={{ padding: "20px" }}>Loading...</p>;
-    if (error) return <p style={{ padding: "20px", color: "red" }}>{error}</p>;
-    if (!recipe) return <p style={{ padding: "20px" }}>Recipe not found.</p>;
+
+    if (loading) return <p className="p-6">Loading...</p>;
+    if (error) return <p className="p-6 text-red-600">{error}</p>;
+    if (!recipe) return <p className="p-6">Recipe not found.</p>;
 
     return (
-        <div style={{ maxWidth: "800px", margin: "0 auto", padding: "30px" }}>
-            <img src={recipe.image} alt="" />
-            <h2 style={{ fontSize: "32px", marginBottom: "20px" }}>{recipe.cuisineType
-            }</h2>
-            <p><b>Description:</b> {recipe.categories}</p>
-            <p><b>Cook Time:</b> {recipe.prepTime}</p>
-            <p><b>Difficulty:</b> {recipe.cuisine}</p>
-            <p><b>Ingredients:</b> {recipe.ingredients}</p>
-            <p><b>Instructions:</b> {recipe.instructions}</p>
+        <div className="max-w-3xl mx-auto p-6 bg-white dark:bg-black text-black dark:text-white rounded-lg shadow-md">
+            <img
+                src={recipe.image || "https://via.placeholder.com/600x400"}
+                alt={recipe.title || "Recipe Image"}
+                className="w-full h-64 object-cover rounded-lg mb-4"
+            />
+            <h2 className="text-3xl font-bold mb-2">{recipe.title || "Untitled Recipe"}</h2>
+            <p><b>Cuisine:</b> {recipe.cuisineType || "Unknown"}</p>
+            <p><b>Description:</b> {recipe.categories || "N/A"}</p>
+            <p><b>Ingredients:</b> {recipe.ingredients || "N/A"}</p>
+            <p><b>Cook Time:</b> {recipe.prepTime || "N/A"}</p>
+            <p><b>Instructions:</b> {recipe.instructions || "N/A"}</p>
+            <p className="mt-2 text-lg font-semibold text-pink-600">
+                ❤️ {recipe.likeCount || 0} Likes
+            </p>
 
             <button
                 onClick={handleLike}
                 disabled={liked}
-                style={{
-                    marginTop: "30px",
-                    padding: "10px 20px",
-                    backgroundColor: liked ? "#e63946" : "#1d3557",
-                    color: "#fff",
-                    border: "none",
-                    borderRadius: "6px",
-                    cursor: liked ? "not-allowed" : "pointer",
-                    fontWeight: "bold",
-                    fontSize: "16px",
-                }}
+                className={`mt-4 px-6 py-2 rounded-lg font-bold text-white transition ${liked ? "bg-red-500 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-700"
+                    }`}
             >
                 {liked ? "Liked ❤️" : "Like ❤️"}
             </button>

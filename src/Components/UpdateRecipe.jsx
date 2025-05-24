@@ -120,15 +120,6 @@ export default function RecipeForm() {
                     className="w-full p-2 border rounded"
                 />
             </div>
-            <div>
-                <label className="block font-medium">Like Count</label>
-                <input
-                    type="number"
-                    name="likeCount"
-                    disabled
-                    className="w-full p-2 border rounded bg-gray-100 text-gray-600"
-                />
-            </div>
 
             <div>
                 <label className="block">Categories</label>
@@ -138,7 +129,6 @@ export default function RecipeForm() {
                             <input
                                 type="checkbox"
                                 defaultValue={categories}
-                                value={category}
                             />
                             <span>{category}</span>
                         </label>
