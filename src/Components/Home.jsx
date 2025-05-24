@@ -12,7 +12,7 @@ const TopRecipes = () => {
     useEffect(() => {
         const fetchTop = async () => {
             try {
-                const res = await axios.get("http://localhost:3000/top-recipes"); 
+                const res = await axios.get("https://recipe-server-side-five.vercel.app/top-recipes"); 
                 setTopRecipes(res.data);
             } catch (error) {
                 console.error("Failed to load top recipes", error);

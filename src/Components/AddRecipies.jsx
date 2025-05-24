@@ -40,9 +40,9 @@ const AddRecipe = () => {
         const formData = new FormData(form);
         const newRecipe = Object.fromEntries(formData.entries());
         
-
+ 
         // send Recipe data to the db 
-        fetch('http://localhost:3000/recipes', {
+        fetch('https://recipe-server-side-five.vercel.app/recipes', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -65,7 +65,7 @@ const AddRecipe = () => {
         // console.log(formData); 
         try {
             const user = JSON.parse(localStorage.getItem("user")); 
-            const res = await axios.post("http://localhost:3000/recipes",
+            const res = await axios.post("https://recipe-server-side-five.vercel.app/recipes",
                 console.log(res), {
                 ...formData,
                 userId: user?._id || "guest",

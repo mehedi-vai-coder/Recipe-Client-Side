@@ -12,8 +12,8 @@ const AllRecipes = () => {
             try {
                 const url =
                     selectedCuisine === "All"
-                        ? "http://localhost:3000/recipes"
-                        : `http://localhost:3000/recipes?cuisine=${selectedCuisine}`;
+                        ? "https://recipe-server-side-five.vercel.app/recipes"
+                        : `https://recipe-server-side-five.vercel.app/recipes?cuisine=${selectedCuisine}`;
                 const res = await axios.get(url);
                 setRecipes(res.data);
             } catch (err) {
