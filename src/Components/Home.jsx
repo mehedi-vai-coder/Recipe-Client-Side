@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
-
 import axios from "axios";
 import { FaHeart } from "react-icons/fa";
-import { Link, useNavigate } from "react-router";
 import Slider from "../Slider/Slider";
 import SubscribeBanner from "./SubscribeBanner";
-
-
+import { Link, useNavigate } from "react-router";
 
 const TopRecipes = () => {
     const [topRecipes, setTopRecipes] = useState([]);
@@ -15,7 +12,7 @@ const TopRecipes = () => {
     useEffect(() => {
         const fetchTop = async () => {
             try {
-                const res = await axios.get("http://localhost:3000/recipies");
+                const res = await axios.get("http://localhost:3000/top-recipies"); // ✅ Updated API
                 setTopRecipes(res.data);
             } catch (error) {
                 console.error("Failed to load top recipes", error);
@@ -26,30 +23,39 @@ const TopRecipes = () => {
     }, []);
 
     return (
-        <div className="min-h-screen  text-black dark:text-white  bg-white dark:bg-black ">
+        <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white">
             <section>
-                <Slider></Slider>
+                <Slider />
             </section>
-            <section className="py-12 px-6 md:px-16 all_recipe  text-black dark:text-white  bg-white dark:bg-black">
-                <h2 className="text-3xl font-bold text-center text-indigo-700 mb-10">🔥 Top Recipes</h2>
+
+            <section className="py-12 px-6 md:px-16">
+                <h2 className="text-3xl font-bold text-center text-indigo-700 mb-10">
+                    🔥 Top 6 Most Liked Recipes
+                </h2>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                     {topRecipes.map((recipe) => (
-                        <div key={recipe._id} className="bg-white shadow-lg rounded-xl overflow-hidden">
+                        <div
+                            key={recipe._id}
+                            className="bg-white dark:bg-white/10 shadow-lg rounded-xl overflow-hidden hover:shadow-xl transition duration-300"
+                        >
                             <img
-                                src={recipe.image || "https://via.placeholder.com/300x200"}
+                                src={recipe.image || "https://via.placeholder.com/300x200?text=No+Image"}
                                 alt={recipe.title}
                                 className="w-full h-48 object-cover"
                             />
                             <div className="p-4">
-                                <h3 className="text-xl font-semibold text-gray-800">{recipe.title}</h3>
-                                <p className="text-sm text-gray-500 mb-1">🌍 {recipe.cuisineType}</p>
+                                <h3 className="text-xl font-semibold text-gray-800 dark:text-white">
+                                    {recipe.title}
+                                </h3>
+                                <p className="text-sm text-gray-500 mb-1">
+                                    🌍 {recipe.cuisineType}
+                                </p>
                                 <p className="text-sm text-pink-600 mb-2 flex items-center gap-1">
                                     <FaHeart className="text-red-500" /> {recipe.likeCount} likes
                                 </p>
                                 <Link
                                     to={`/specificrecipedetails/${recipe._id}`}
-                                    // to={`/recipes/${recipe._id}`}
                                     className="inline-block mt-2 text-indigo-600 hover:text-indigo-800 font-medium"
                                 >
                                     View Details →
@@ -67,11 +73,10 @@ const TopRecipes = () => {
                         See All Recipes
                     </button>
                 </div>
-
             </section>
 
             <section>
-                <SubscribeBanner></SubscribeBanner>
+                <SubscribeBanner />
             </section>
         </div>
     );

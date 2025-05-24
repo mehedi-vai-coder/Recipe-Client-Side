@@ -27,7 +27,7 @@ const AllRecipes = () => {
     const filteredRecipes =
         selectedCuisine === "All"
             ? recipes
-            : recipes.filter((recipe) => recipe.cuisineType === selectedCuisine);
+            : recipes.filter((recipe) => recipe.cuisine === selectedCuisine);
 
     return (
         <div className="max-w-7xl mx-auto px-4 py-10 bg-white dark:bg-black text-black dark:text-white">
