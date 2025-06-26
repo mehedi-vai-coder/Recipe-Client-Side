@@ -14,14 +14,15 @@ const AddRecipe = () => {
         cuisine: "Italian",
         prepTime: "",
         categories: [],
-        likeCount: 0,
     });
+    const [loading, setLoading] = useState(false);
 
     const categoryOptions = ["Breakfast", "Lunch", "Dinner", "Dessert", "Vegan"];
     const cuisineOptions = ["Italian", "Mexican", "Indian", "Chinese", "Others"];
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
+
         if (type === "checkbox") {
             setFormData((prev) => ({
                 ...prev,
@@ -36,87 +37,100 @@ const AddRecipe = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const form = e.target;
-        const formData = new FormData(form);
-        const newRecipe = Object.fromEntries(formData.entries());
-        
- 
-        // send Recipe data to the db 
-        fetch('https://recipe-server-side-five.vercel.app/recipes', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(newRecipe)
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.insertedId) {
-                    // console.log('After adding Coffee to db', data)
-                    navigate(`${location.state ? location.state : "/myrecipe"}`)
-                    Swal.fire({
-                        title: "Recipe Added successfully.",
-                        icon: "success",
-                        draggable: true
-                    });
-                    form.reset();
-                }
-            });
-        // console.log(formData); 
+        setLoading(true);
+
+        // Basic validation before submit
+        if (
+            !formData.image ||
+            !formData.title ||
+            !formData.ingredients ||
+            !formData.instructions ||
+            !formData.prepTime
+        ) {
+            toast.error("Please fill all required fields!");
+            setLoading(false);
+            return;
+        }
+
         try {
-            const user = JSON.parse(localStorage.getItem("user")); 
-            const res = await axios.post("https://recipe-server-side-five.vercel.app/recipes",
-                console.log(res), {
+            // Add userId if stored in localStorage
+            const user = JSON.parse(localStorage.getItem("user"));
+            const payload = {
                 ...formData,
+                likeCount: 0,
                 userId: user?._id || "guest",
-            });
-            toast.success("Recipe added successfully!");
-            setFormData({
-                image: "",
-                title: "",
-                ingredients: "",
-                instructions: "",
-                cuisine: "Italian",
-                prepTime: "",
-                categories: [],
-                likeCount: {
-                    type: Number,
-                    default: 0, 
-                },
-                userId: String, 
-            });
+            };
+
+            const res = await axios.post(
+                "https://recipe-server-side-five.vercel.app/recipes",
+                payload
+            );
+
+            if (res.data.insertedId || res.status === 200) {
+                Swal.fire({
+                    title: "Recipe Added Successfully!",
+                    icon: "success",
+                    timer: 2000,
+                    showConfirmButton: false,
+                    draggable: true,
+                    background: "#34D399", // Tailwind green-400 for style
+                    color: "#fff",
+                });
+
+                toast.success("Recipe added!");
+                setFormData({
+                    image: "",
+                    title: "",
+                    ingredients: "",
+                    instructions: "",
+                    cuisine: "Italian",
+                    prepTime: "",
+                    categories: [],
+                });
+
+                navigate("/myrecipe");
+            } else {
+                throw new Error("Failed to add recipe");
+            }
         } catch (error) {
-            toast.error("Failed to add recipe");
             console.error(error);
+            toast.error("Failed to add recipe. Please try again.");
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <div className="max-w-3xl mx-auto mt-8 p-6 bg-white rounded shadow dark:text-black">
-            <h2 className="text-2xl font-bold mb-6 text-center">Add New Recipe</h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="max-w-3xl mx-auto mt-8 p-6 bg-white rounded-lg shadow-lg dark:bg-gray-900 dark:text-white transition-colors duration-300">
+            <h2 className="text-3xl font-bold mb-8 text-center text-indigo-600 dark:text-indigo-400">
+                Add New Recipe
+            </h2>
+            <form onSubmit={handleSubmit} className="space-y-6">
                 <input
-                    type="text"
+                    type="url"
                     name="image"
                     placeholder="Image URL"
-                    className="w-full p-2 border rounded"
+                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700"
                     value={formData.image}
                     onChange={handleChange}
                     required
+                    autoComplete="off"
                 />
                 <input
                     type="text"
                     name="title"
                     placeholder="Recipe Title"
-                    className="w-full p-2 border rounded"
+                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700"
                     value={formData.title}
                     onChange={handleChange}
                     required
+                    autoComplete="off"
                 />
                 <textarea
                     name="ingredients"
                     placeholder="Ingredients (comma separated)"
-                    className="w-full p-2 border rounded"
+                    rows={4}
+                    className="w-full p-3 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700"
                     value={formData.ingredients}
                     onChange={handleChange}
                     required
@@ -124,22 +138,25 @@ const AddRecipe = () => {
                 <textarea
                     name="instructions"
                     placeholder="Instructions"
-                    className="w-full p-2 border rounded"
+                    rows={5}
+                    className="w-full p-3 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700"
                     value={formData.instructions}
                     onChange={handleChange}
                     required
                 />
 
-                <div className="flex items-center gap-4">
-                    <label className="font-semibold">Cuisine Type:</label>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:gap-6">
+                    <label className="font-semibold mb-2 sm:mb-0">Cuisine Type:</label>
                     <select
                         name="cuisine"
                         value={formData.cuisine}
                         onChange={handleChange}
-                        className="p-2 border rounded"
+                        className="flex-1 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700"
                     >
                         {cuisineOptions.map((type) => (
-                            <option key={type} value={type}>{type}</option>
+                            <option key={type} value={type}>
+                                {type}
+                            </option>
                         ))}
                     </select>
                 </div>
@@ -148,25 +165,30 @@ const AddRecipe = () => {
                     type="number"
                     name="prepTime"
                     placeholder="Preparation Time (minutes)"
-                    className="w-full p-2 border rounded"
+                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700"
                     value={formData.prepTime}
                     onChange={handleChange}
                     required
+                    min={1}
                 />
 
                 <div>
                     <label className="font-semibold">Categories:</label>
                     <div className="flex flex-wrap gap-4 mt-2">
                         {categoryOptions.map((cat) => (
-                            <label key={cat} className="flex items-center gap-2">
+                            <label
+                                key={cat}
+                                className="flex items-center gap-2 cursor-pointer select-none"
+                            >
                                 <input
                                     type="checkbox"
                                     name="categories"
                                     value={cat}
                                     checked={formData.categories.includes(cat)}
                                     onChange={handleChange}
+                                    className="cursor-pointer"
                                 />
-                                {cat}
+                                <span className="dark:text-gray-200">{cat}</span>
                             </label>
                         ))}
                     </div>
@@ -174,9 +196,13 @@ const AddRecipe = () => {
 
                 <button
                     type="submit"
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white p-2 rounded"
+                    disabled={loading}
+                    className={`w-full py-3 rounded-md text-white font-semibold transition ${loading
+                            ? "bg-indigo-400 cursor-not-allowed"
+                            : "bg-indigo-600 hover:bg-indigo-700"
+                        }`}
                 >
-                    Add Recipe
+                    {loading ? "Adding Recipe..." : "Add Recipe"}
                 </button>
             </form>
         </div>

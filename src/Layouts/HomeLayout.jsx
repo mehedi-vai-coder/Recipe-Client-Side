@@ -1,29 +1,31 @@
 import React from 'react';
-import Header from '../Components/Header';
 import { Outlet } from 'react-router';
-import Slider from '../Slider/Slider';
+import Header from '../Components/Header';
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
 
 const HomeLayout = () => {
     return (
-        <div className='px-30 mx-auto  text-black dark:text-white  bg-white dark:bg-black'>
-            <header>
-                <Header></Header>
+        <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white transition-colors duration-300 font-sans">
+            {/* Header Section */}
+            <header className="border-b border-gray-200 dark:border-gray-800">
+                <Header />
+                <Navbar />
             </header>
-            <nav>
-                <Navbar></Navbar>
-            </nav>
-            <main>
-                <section className='left_nav'>
 
-                </section>
-                <section className='main'>
-                    <Outlet></Outlet>
+            {/* Main Content Section */}
+            <main className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                {/* Optional Sidebar layout */}
+                {/* <aside className="hidden lg:block w-1/4"> Left Nav Here </aside> */}
+
+                <section className="w-full">
+                    <Outlet />
                 </section>
             </main>
-            <footer className='mt-20'>
-                <Footer></Footer>
+
+            {/* Footer Section */}
+            <footer className="border-t border-gray-200 dark:border-gray-800 mt-10 py-8 px-4 sm:px-6 lg:px-8">
+                <Footer />
             </footer>
         </div>
     );

@@ -1,28 +1,35 @@
 import { format } from 'date-fns';
 import React from 'react';
-import { Typewriter } from 'react-simple-typewriter'
+import { Typewriter } from 'react-simple-typewriter';
+
 const Header = () => {
     return (
-        <div className='text-center space-y-4 
-        text-black dark:text-white  bg-white dark:bg-black
-            <Typewriter
-         ' style={{ paddingTop: '1rem', fontSize: '2rem', margin: 'auto 0', fontWeight: 'bold' }}>
-          
-                <Typewriter
-                    words={['Savor Every Step — From Scratch to Served.']}
-                    loop={10}
-                    cursor
-                    cursorStyle='_'
-                    typeSpeed={70}
-                    deleteSpeed={50}
-                    delaySpeed={1000}
-                />
+        <header className="bg-white text-gray-900 dark:bg-gray-950 dark:text-white transition-colors duration-300 py-16">
+            <div className="max-w-2xl mx-auto px-4 text-center space-y-6">
+                {/* Main Typewriter Title */}
+                <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">
+                    <Typewriter
+                        words={['Savor Every Step — From Scratch to Served.']}
+                        loop={0}
+                        cursor
+                        cursorStyle="|"
+                        typeSpeed={80}
+                        deleteSpeed={50}
+                        delaySpeed={2000}
+                    />
+                </h1>
 
-                <p className='text-xl text-amber-800'>Your ultimate digital kitchen companion. Discover, save, and share delicious moments.</p>
-                <p className='font-semibold'>{format(new Date(), "EEEE, MMMM MM, yyyy")}</p>
+                {/* Subtitle */}
+                <p className="text-lg md:text-xl text-amber-600 dark:text-amber-400">
+                    Your ultimate digital kitchen companion. Discover, save, and share delicious moments.
+                </p>
 
-
-        </div>
+                {/* Date */}
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                    {format(new Date(), 'EEEE, MMMM d, yyyy')}
+                </p>
+            </div>
+        </header>
     );
 };
 

@@ -1,28 +1,35 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 const SubscribeBanner = () => {
     return (
-        <section className="py-12 px-6 md:px-16 rounded-2xl shadow-xl mt-16 mb-10  text-black dark:text-white dark:bg-blue-400 bg-gray-400 ">
-            <div className="max-w-4xl mx-auto text-center dark:border-white">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4">
+        <motion.section
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="py-16 px-6 md:px-16 rounded-3xl mt-20 mb-10 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 dark:from-blue-900 dark:via-indigo-900 dark:to-purple-900 shadow-2xl text-white"
+        >
+            <div className="max-w-4xl mx-auto text-center space-y-6">
+                <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">
                     💌 Subscribe to Get Delicious Recipes
                 </h2>
-                <p className="mb-6 text-white/90 text-sm md:text-base">
-                    Join 10,000+ food lovers and get weekly updates, cooking tips, and new recipes directly to your inbox!
+                <p className="text-sm md:text-base text-white/90 max-w-xl mx-auto">
+                    Join 10,000+ food lovers and get weekly updates, cooking tips, and tasty inspirations right in your inbox!
                 </p>
 
-                <div className="flex flex-col sm:flex-row justify-center items-center gap-3 max-w-md mx-auto">
+                <div className="flex flex-col sm:flex-row justify-center items-center gap-3 max-w-md mx-auto mt-6">
                     <input
                         type="email"
                         placeholder="Enter your email"
-                        className="w-full px-4 py-2 rounded-full text-gray-800 focus:outline-none"
+                        className="w-full px-5 py-3 rounded-full text-gray-900 focus:outline-none focus:ring-4 focus:ring-white/40 shadow-md"
                     />
-                    <button className="bg-white text-indigo-600 px-6 py-2 rounded-full font-semibold hover:bg-gray-100 transition">
+                    <button className="bg-white text-indigo-600 font-semibold px-6 py-3 rounded-full hover:bg-gray-100 transition shadow-md hover:scale-105">
                         Subscribe
                     </button>
                 </div>
             </div>
-        </section>
+        </motion.section>
     );
 };
 
